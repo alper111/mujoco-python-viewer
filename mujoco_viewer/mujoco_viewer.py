@@ -171,9 +171,7 @@ class MujocoViewer(Callbacks):
 
     def _create_overlay(self):
         topleft = mujoco.mjtGridPos.mjGRID_TOPLEFT
-        topright = mujoco.mjtGridPos.mjGRID_TOPRIGHT
         bottomleft = mujoco.mjtGridPos.mjGRID_BOTTOMLEFT
-        bottomright = mujoco.mjtGridPos.mjGRID_BOTTOMRIGHT
 
         def add_overlay(gridpos, text1, text2):
             if gridpos not in self._overlay:
@@ -269,10 +267,6 @@ class MujocoViewer(Callbacks):
         mujoco.mjv_applyPerturbForce(self.model, self.data, self.pert)
 
     def read_pixels(self, camid=None, depth=False):
-        if self.render_mode == 'window':
-            raise NotImplementedError(
-                "Use 'render()' in 'window' mode.")
-
         if camid is not None:
             if camid == -1:
                 self.cam.type = mujoco.mjtCamera.mjCAMERA_FREE
@@ -294,8 +288,7 @@ class MujocoViewer(Callbacks):
         # render
         mujoco.mjr_render(self.viewport, self.scn, self.ctx)
         shape = glfw.get_framebuffer_size(self.window)
-        
-        
+
         if depth:
             rgb_img = np.zeros((shape[1], shape[0], 3), dtype=np.uint8)
             depth_img = np.zeros((shape[1], shape[0], 1), dtype=np.float32)
@@ -305,7 +298,6 @@ class MujocoViewer(Callbacks):
             img = np.zeros((shape[1], shape[0], 3), dtype=np.uint8)
             mujoco.mjr_readPixels(img, None, self.viewport, self.ctx)
             return np.flipud(img)
-
 
     def render(self):
         if self.render_mode == 'offscreen':
