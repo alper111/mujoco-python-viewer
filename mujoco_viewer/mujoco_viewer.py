@@ -260,6 +260,7 @@ class MujocoViewer(Callbacks):
                 round(
                     self.data.time / self.model.opt.timestep)))
         add_overlay(bottomleft, "timestep", "%.5f" % self.model.opt.timestep)
+        add_overlay(bottomleft, "Real time", "%.5f" % self.data.time)
 
     def apply_perturbations(self):
         self.data.xfrc_applied = np.zeros_like(self.data.xfrc_applied)
