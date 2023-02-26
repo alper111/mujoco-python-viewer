@@ -299,7 +299,7 @@ class MujocoViewer(Callbacks):
             mujoco.mjr_readPixels(img, None, self.viewport, self.ctx)
             return np.flipud(img)
 
-    def render(self):
+    def render(self, clear_markers=True):
         if self.render_mode == 'offscreen':
             raise NotImplementedError(
                 "Use 'read_pixels()' for 'offscreen' mode.")
@@ -374,7 +374,8 @@ class MujocoViewer(Callbacks):
                 self._loop_count -= 1
 
         # clear markers
-        self._markers[:] = []
+        if clear_markers:
+            self._markers[:] = []
 
         # apply perturbation (should this come before mj_step?)
         self.apply_perturbations()
